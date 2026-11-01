@@ -69,11 +69,19 @@ async function fetchWeather(lat, lon) {
   return res.json();
 }
 
-function renderSuggestions(places) {
+// 是否包含中日韩文字（用于判断要不要提示"试试英文名"）
+const hasCJK = (s) => /[一-鿿぀-ヿ가-힯]/.test(s);
+
+function renderSuggestions(places, query) {
   suggestionsEl.innerHTML = "";
   if (!places.length) {
     suggestionsEl.classList.add("hidden");
-    setStatus("没有找到这个城市，换个写法试试？");
+    // 地名库对部分国外小城镇只收录了英文名，给用户一个能行动的提示
+    setStatus(
+      hasCJK(query)
+        ? `没有找到「${query}」：一些国外小地方在地名库里只有英文名，试试英文名或拼音（如 Rankin Inlet）`
+        : `没有找到「${query}」，检查一下拼写，或换成中文名试试？`
+    );
     return;
   }
   for (const p of places) {
@@ -173,7 +181,7 @@ async function handleSearch() {
     setStatus("正在搜索城市…");
     const places = await searchCity(name);
     setStatus("");
-    renderSuggestions(places);
+    renderSuggestions(places, name);
   } catch (err) {
     setStatus(`出错了：${err.message}，请检查网络后重试`);
   }
