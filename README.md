@@ -49,8 +49,9 @@ npm run build   # 产物在 dist/ 目录
 
 ## 📸 截图
 
-<!-- 运行后截一张图放在这里，例如： -->
-<!-- ![screenshot](screenshot.png) -->
+![screenshot](screenshot.png)
+
+> 图中为加拿大 Rankin Inlet（兰金因莱特）的实时天气——也是本仓库「开发日志」里那个中文名搜索案例的主角 😄
 
 ## 💡 实现思路
 
