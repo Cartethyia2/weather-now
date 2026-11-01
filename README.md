@@ -2,6 +2,8 @@
 
 ![banner](banner.png)
 
+**🌐 在线体验：https://cartethyia2.github.io/weather-now/**
+
 一个简洁好看的天气查询网页，输入城市名即可查看**实时天气、未来 24 小时预报和 7 天趋势**，页面背景还会随天气自动变色。
 
 > 我的第一个 GitHub 项目，欢迎 Star ⭐
