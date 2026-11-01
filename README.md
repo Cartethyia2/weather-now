@@ -27,7 +27,7 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/你的用户名/weather-now.git
+git clone https://github.com/Cartethyia2/weather-now.git
 cd weather-now
 
 # 安装依赖
