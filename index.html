@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>晴雨表 · 天气查询</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <h1>晴雨表</h1>
+      <p class="slogan">查一座城市的天气，再决定今天的心情</p>
+    </header>
+
+    <section class="search-bar">
+      <input
+        id="city-input"
+        type="text"
+        placeholder="输入城市名，例如：北京 / Shanghai / Tokyo"
+        autocomplete="off"
+      />
+      <button id="search-btn">查询</button>
+    </section>
+
+    <ul id="suggestions" class="suggestions hidden"></ul>
+
+    <p id="status" class="status"></p>
+
+    <!-- 当前天气卡片 -->
+    <section id="current-card" class="card current hidden">
+      <div class="current-main">
+        <div>
+          <h2 id="city-name">--</h2>
+          <p id="local-time" class="sub">--</p>
+        </div>
+        <div class="temp-block">
+          <span id="current-emoji" class="emoji">🌤️</span>
+          <span id="current-temp" class="temp">--°</span>
+        </div>
+      </div>
+      <p id="current-desc" class="desc">--</p>
+      <div class="metrics">
+        <div class="metric"><span class="label">体感温度</span><span id="feels-like">--°</span></div>
+        <div class="metric"><span class="label">湿度</span><span id="humidity">--%</span></div>
+        <div class="metric"><span class="label">风速</span><span id="wind">-- km/h</span></div>
+        <div class="metric"><span class="label">今日温差</span><span id="day-range">--</span></div>
+      </div>
+    </section>
+
+    <!-- 24 小时预报 -->
+    <section id="hourly-card" class="card hidden">
+      <h3>未来 24 小时</h3>
+      <div id="hourly-list" class="hourly-list"></div>
+    </section>
+
+    <!-- 7 天预报 -->
+    <section id="daily-card" class="card hidden">
+      <h3>未来 7 天</h3>
+      <ul id="daily-list" class="daily-list"></ul>
+    </section>
+
+    <footer class="footer">
+      数据来源：<a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>（免费开源天气 API）
+    </footer>
+  </main>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
