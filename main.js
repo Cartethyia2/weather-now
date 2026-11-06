@@ -53,6 +53,31 @@ async function searchCity(name) {
   return (await res.json()).results ?? [];
 }
 
+// 1b. 中文长名逐级截短回退："深圳南山" → "深圳南" → "深圳"
+async function searchCityWithFallback(name) {
+  let places = await searchCity(name);
+  if (places.length || !hasCJK(name)) return { places, matched: name };
+  for (let len = name.length - 1; len >= 2; len--) {
+    places = await searchCity(name.slice(0, len));
+    if (places.length) return { places, matched: name.slice(0, len) };
+  }
+  return { places: [], matched: name };
+}
+
+// 1c. 中文 → 英文翻译回退（MyMemory 免费接口，无需 key）
+async function translateToEn(name) {
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(name)}&langpair=zh-CN|en`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const t = (await res.json())?.responseData?.translatedText ?? "";
+    // 翻译失败时接口会原样吐回中文，这种不算数
+    return t && !hasCJK(t) ? t : null;
+  } catch {
+    return null;  // 翻译接口挂了不连累主流程
+  }
+}
+
 // 2. 经纬度 → 天气数据
 async function fetchWeather(lat, lon) {
   const params = new URLSearchParams({
@@ -178,12 +203,31 @@ async function handleSearch() {
   const name = cityInput.value.trim();
   if (!name) return setStatus("先输入一个城市名吧");
   try {
+    cityInput.disabled = true;
+    searchBtn.disabled = true;
+    searchBtn.textContent = "查询中...";
+    // 降级链：直接搜 → 中文截短搜 → 翻译成英文搜 → 全灭才认输
     setStatus("正在搜索城市…");
-    const places = await searchCity(name);
-    setStatus("");
+    let { places, matched } = await searchCityWithFallback(name);
+    if (!places.length && hasCJK(name)) {
+      setStatus("中文没找到，正在试试翻译成英文…");
+      const en = await translateToEn(name);
+      if (en) {
+        places = await searchCity(en);
+        if (places.length) matched = en;
+      }
+    }
+    setStatus(
+      matched !== name ? `未找到「${name}」，已为你匹配最接近的「${matched}」` : ""
+    );
     renderSuggestions(places, name);
   } catch (err) {
     setStatus(`出错了：${err.message}，请检查网络后重试`);
+  }
+  finally{
+    searchBtn.disabled = false;
+    searchBtn.textContent = "查询";
+    cityInput.disabled = false;
   }
 }
 
