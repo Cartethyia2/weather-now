@@ -40,8 +40,10 @@ function setTheme(code, isDay) {
     return document.body.classList.add("theme-rain");
   if ([71, 73, 75, 77, 85, 86].includes(code))
     return document.body.classList.add("theme-snow");
-  if ([2, 3, 45, 48].includes(code))
+  if ([2].includes(code))
     return document.body.classList.add("theme-cloudy");
+  if ([3, 45, 48].includes(code))
+    return document.body.classList.add("theme-overcast");
   document.body.classList.add("theme-sunny");
 }
 

@@ -22,10 +22,11 @@ body {
 }
 
 body.theme-sunny  { --bg-1: #f7971e; --bg-2: #ffb347; --bg-3: #ffd66e; }
-body.theme-cloudy { --bg-1: #485563; --bg-2: #607d9c; --bg-3: #8fb0cc; }
+body.theme-cloudy { --bg-1: #354787; --bg-2: #32549e; --bg-3: #2b5dc1; }
 body.theme-rain   { --bg-1: #232526; --bg-2: #3a6073; --bg-3: #5b8aa5; }
 body.theme-snow   { --bg-1: #83a4d4; --bg-2: #a8c0e8; --bg-3: #d6e4f5; }
 body.theme-night  { --bg-1: #0f2027; --bg-2: #203a43; --bg-3: #2c5364; }
+body.theme-overcast{ --bg-1: #6b6767; --bg-2: #535151; --bg-3: #484545;}
 
 .app {
   max-width: 640px;
