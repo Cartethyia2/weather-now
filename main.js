@@ -87,7 +87,7 @@ async function fetchWeather(lat, lon) {
     longitude: lon,
     current: "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m",
     hourly: "temperature_2m,weather_code",
-    daily: "weather_code,temperature_2m_max,temperature_2m_min",
+    daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max",
     timezone: "auto",
     forecast_days: 7,
   });
@@ -169,6 +169,7 @@ function render(data, place) {
     const [dDesc, dEmoji] = weatherInfo(daily.weather_code[i]);
     const min = daily.temperature_2m_min[i];
     const max = daily.temperature_2m_max[i];
+    const prob = daily.precipitation_probability_max[i];
     const left = ((min - weekMin) / (weekMax - weekMin || 1)) * 100;
     const width = ((max - min) / (weekMax - weekMin || 1)) * 100;
     const li = document.createElement("li");
@@ -176,6 +177,7 @@ function render(data, place) {
     li.innerHTML = `
       <span>${i === 0 ? "今天" : weekdays[new Date(t).getDay()]}</span>
       <span class="d-emoji">${dEmoji}</span>
+      <span class="d-pop">💧${prob}%</span>
       <div class="d-bar">
         <span class="min">${Math.round(min)}°</span>
         <div class="track"><div class="fill" style="margin-left:${left}%;width:${Math.max(width, 6)}%"></div></div>
