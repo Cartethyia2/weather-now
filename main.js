@@ -197,6 +197,7 @@ async function loadWeather(place) {
     setStatus("正在获取天气数据…");
     const data = await fetchWeather(place.latitude, place.longitude);
     render(data, place);
+    localStorage.setItem("lastCity", JSON.stringify(place));
     setStatus("");
   } catch (err) {
     setStatus(`出错了：${err.message}，请检查网络后重试`);
@@ -243,7 +244,11 @@ cityInput.addEventListener("keydown", (e) => {
 // 页面加载时默认查一次北京，让首页不空着
 window.addEventListener("DOMContentLoaded", async () => {
   try {
-    const places = await searchCity("北京");
-    if (places.length) loadWeather(places[0]);
+    const savedCity = JSON.parse(localStorage.getItem("lastCity"));
+    if(savedCity) {
+      loadWeather(savedCity);
+    }
+    else {const places = await searchCity("北京");
+    if (places.length) loadWeather(places[0])};
   } catch { /* 首次加载失败静默处理，用户手动搜索即可 */ }
 });
